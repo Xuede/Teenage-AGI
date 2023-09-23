@@ -1,5 +1,5 @@
 name: Keep Pinecone Index Alive
-
+# Every 7 days they'll delete the index
 on:
   schedule:
     # Run once every 24 hours
@@ -29,7 +29,7 @@ jobs:
         import os
 
         pinecone.init(api_key=os.environ["PINECONE_API_KEY"])
-        index_name = "your_index_name_here"
+        index_name = "my-agent"
 
         # Fetch some info to keep the index alive
         info = pinecone.info(index_name)
