@@ -20,11 +20,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pinecone-io
+        pip install pinecone-client
 
     - name: Ping Pinecone Index
       env:
         PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
         PINECONE_API_ENV: ${{ secrets.PINECONE_API_ENV }}
       run: |
-        python -c "import pinecone; import os; pinecone.init(api_key=os.environ['PINECONE_API_KEY'], environment=os.environ['PINECONE_API_ENV']); index_name = 'my-agent'; info = pinecone.info(index_name); print(f'Index info: {info}'); pinecone.deinit()"
+        python -c "from pinecone import Pinecone; import os; Pinecone.init(api_key=os.getenv('PINECONE_API_KEY')); index_name = 'my-agent'; info = Pinecone.info(index_name); print(f'Index info: {info}'); Pinecone.deinit()"
