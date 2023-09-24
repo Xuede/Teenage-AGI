@@ -28,4 +28,4 @@ jobs:
         PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
         PINECONE_API_ENV: ${{ secrets.PINECONE_API_ENV }}
       run: |
-        python -c "from pinecone import Pinecone; import os; Pinecone.init(api_key=os.getenv('PINECONE_API_KEY')); index_name = 'my-agent'; info = Pinecone.info(index_name); print(f'Index info: {info}'); Pinecone.deinit()"
+        python -c "import Pinecone; import os; Pinecone.init(api_key=os.getenv('PINECONE_API_KEY')); index_name = 'my-agent'; info = Pinecone.info(index_name); print(f'Index info: {info}'); Pinecone.deinit()"
