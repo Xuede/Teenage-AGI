@@ -1,9 +1,11 @@
 name: Keep Pinecone Index Alive
-# Every 7 days they'll delete the index
+
 on:
   schedule:
     # Run once every 24 hours
     - cron: '0 0 * * *'
+    # Run once every 7 days
+    - cron: '0 0 */7 * *'
   workflow_dispatch:
 
 jobs:
@@ -20,12 +22,21 @@ jobs:
         
     - name: Install dependencies
       run: |
-        pip install pinecone-client
-        python -c "help('modules')"
-
+        pip install pinecone-io
+        
     - name: Ping Pinecone Index
       env:
         PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
         PINECONE_API_ENV: ${{ secrets.PINECONE_API_ENV }}
       run: |
-        python -c "import Pinecone; import os; Pinecone.init(api_key=os.getenv('PINECONE_API_KEY')); index_name = 'my-agent'; info = Pinecone.info(index_name); print(f'Index info: {info}'); Pinecone.deinit()"
+        import pinecone
+        import os
+        
+        pinecone.init(api_key=os.getenv('PINECONE_API_KEY'))
+        index_name = 'my-agent'
+        
+        # Fetch some info to keep the index alive
+        info = pinecone.info(index_name)
+        print(f"Index info: {info}")
+        
+        pinecone.deinit()
