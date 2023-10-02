@@ -2,8 +2,8 @@ name: Keep Pinecone Index Alive
 
 on:
   schedule:
-    # Run once every 7 days
-    - cron: '0 0 */7 * *'
+    # Run once every 24 hours
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         import pinecone
         import os
         
-        pinecone.init(api_key=os.getenv('PINECONE_API_KEY'))
+        pinecone.init(api_key=os.getenv('PINECONE_API_KEY'), environment=os.getenv('PINECONE_API_ENV'))
         index_name = 'my-agent'
         
         # Fetch some info to keep the index alive
