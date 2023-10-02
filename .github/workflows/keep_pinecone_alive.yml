@@ -2,8 +2,8 @@ name: Keep Pinecone Index Alive
 
 on:
   schedule:
-    # Run once every 24 hours
-    - cron: '0 0 * * *'
+    # Run once every 7 days
+    - cron: '0 0 */7 * *'
   workflow_dispatch:
 
 jobs:
