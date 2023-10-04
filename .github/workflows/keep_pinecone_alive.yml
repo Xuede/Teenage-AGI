@@ -26,4 +26,4 @@ jobs:
       env:
         PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
         PINECONE_API_ENV: ${{ secrets.PINECONE_API_ENV }}
-      run: python keep_alive.py
+      run: python Xan/.github/workflows/keep_alive.py
