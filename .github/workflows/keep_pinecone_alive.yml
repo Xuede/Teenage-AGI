@@ -20,7 +20,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-        pip install pinecone-client
+        pip install pinecone-io
     
     - name: Ping Pinecone Index
       env:
