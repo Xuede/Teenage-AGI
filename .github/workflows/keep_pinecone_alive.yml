@@ -8,7 +8,7 @@ on:
 
 jobs:
   ping-pinecone:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -21,7 +21,10 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pinecone-io pinecone-client
-    
+    - name: Install dependencies
+      run: |
+        pip install pinecone-client
+
     - name: Ping Pinecone Index
       env:
         PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
