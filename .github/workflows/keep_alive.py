@@ -13,5 +13,3 @@ try:
     print(f"Index info: {info}")
 except Exception as e:
     print(f"An error occurred: {str(e)}")
-finally:
-    pinecone.deinit()
