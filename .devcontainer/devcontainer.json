@@ -25,4 +25,5 @@
   },
   "postCreateCommand": "pwd && sudo chown -R vscode:vscode /workspaces",
   "postStartCommand":"sh /workspaces/Xan/.devcontainer/post-create.sh"
+  }
 }
