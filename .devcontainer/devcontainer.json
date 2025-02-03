@@ -1,0 +1,28 @@
+{
+  "name": "Xan Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/python:3.10",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "remoteUser": "vscode",
+  "settings": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "postCreateCommand": "pwd && sudo chown -R vscode:vscode /workspaces",
+  "postStartCommand":"sh /workspaces/Xan/.devcontainer/post-create.sh"
+}

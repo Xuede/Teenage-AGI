@@ -1,9 +1,32 @@
 import os
 import datetime
+import time
+import threading
 from agent import Agent
 from dotenv import load_dotenv
 
-# Define the last interaction time
+# Load default environment variables (.env)
+load_dotenv()
+
+AGENT_NAME = os.getenv("AGENT_NAME", "my-agent")
+TIME_FILE = 'TIME_FILE.txt'
+
+# Initialize initial_time from TIME_FILE or fallback to current time
+if os.path.exists(TIME_FILE):
+    with open(TIME_FILE, 'r') as f:
+        datetime_str = f.read().strip()
+    try:
+        initial_time = datetime.datetime.fromisoformat(datetime_str)
+    except Exception:
+        initial_time = datetime.datetime.now()
+else:
+    initial_time = datetime.datetime.now()
+
+table_name = AGENT_NAME
+agent = Agent(initial_time=initial_time, table_name=table_name)
+agent.update_time()
+
+# Use agent to think the current date and time
 last_interaction_time = datetime.datetime.now()
 agent.think(f"The current date and time is {last_interaction_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
@@ -15,9 +38,7 @@ stop_timer_thread = False
 def read_time_periodically():
     global stop_timer_thread
     while not stop_timer_thread:
-        #print("Time update function is called.")
         agent.update_time()
-        #print("Time update function has completed. Sleeping for 5 minutes now.")
         for _ in range(300):  # sleeps for 300 seconds (5 minutes)
             if not stop_timer_thread:
                 time.sleep(1)
@@ -25,7 +46,7 @@ def read_time_periodically():
                 break
 
 def check_for_input():
-    global input_received, stop_timer_thread
+    global stop_timer_thread
     while True:
         userInput = input('Input to AI: ')
         if userInput.lower() == "farewell":
@@ -53,20 +74,6 @@ input_thread.start()
 timer_thread.join()
 input_thread.join()
 
-# Load default environment variables (.env)
-load_dotenv()
-
-AGENT_NAME = os.getenv("AGENT_NAME", "my-agent")
-TIME_FILE = 'TIME_FILE.txt'
-initial_time = load_initial_time()
-table_name = "my-agent"
-#name = "my-agent"
-agent = Agent(initial_time=initial_time, table_name=table_name)
-agent.update_time()
-
-# Creates Pinecone Index
-agent.createIndex()
-
 print("Talk to the AI!")
 
 while True:
@@ -84,10 +91,7 @@ while True:
         else:
             response = agent.action(userInput)
             print(response)
-            # Save latest time after interacting
-            
             with open(TIME_FILE, 'r') as f:
-                datetime_str = f.read().strip()  # read from file and remove any leading/trailing whitespace
-
+                datetime_str = f.read().strip()  # read from file and remove any whitespace
     else:
         print("SYSTEM - Give a valid input")

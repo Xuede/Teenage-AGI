@@ -1,8 +1,8 @@
 version: "3.9"
 
 services:
-  teenage-agi:
+  xan:
     build: ./
     volumes:
       - "./:/app"
-    profiles: ["exclude-from-up"] # Use `docker-compose run teenage-agi` to get an attached container
+    profiles: ["exclude-from-up"] # Use `docker-compose run xan` to get an attached container

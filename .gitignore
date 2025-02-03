@@ -1,3 +1,4 @@
 .env
 __pycache__
 venv
+xan_memory.db
